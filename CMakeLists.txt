@@ -3,4 +3,4 @@ project(MOBCrawler)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(MOBCrawler main.cpp)
+add_executable(MOBCrawler main.cpp combatant.cpp main.h)

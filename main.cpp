@@ -1,60 +1,67 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <windows.h>
+
+#include "main.h"
 using namespace std;
 
-struct Combatant {
-    int initiative;
-    int hP;
-    int AC;
-    string name;
+void initInputs(combatant[], int);
+void clearScreen();
+
+struct combatantInput {
+
 };
 
-void displayStats(const vector<Combatant> &combat);
-bool combatSort(Combatant &a, Combatant &b);
 
 int main() {
-    int iCounter = 0;
-    string iName;
-    vector<Combatant> combat;
+    int charCount;
+    printf("Welcome to MOBCrawler!\n Press any key to begin...\n");
+    cin.get();
 
-    combat.push_back(Combatant());
+    clearScreen();
 
-    cout << "Please enter combatants, type 'done' when finished.\n";
-    while(true) {
-        cout << "Enter name of combatant " << iCounter << ":";
-        cin >> iName;
-        //checks for end in name input
-        if(iName == "done")
-            break;
-        combat[iCounter].name = iName;
-        //TODO: input checking
-        cout<< "\nEnter initiative: ";
-        cin >> combat[iCounter].initiative;
-        cout << "\nEnter current hitpoints: ";
-        cin >> combat[iCounter].hP;
-        cout << "\nEnter Armor Class: ";
-        cin >> combat[iCounter].AC;
-        combat.push_back(Combatant());
-        iCounter++;
-    }
-    sort(combat.begin(), combat.end(), combatSort);
+    printf("Please enter number of combatants: ");
+    cin >> charCount;
+    printf("Please enter combatant stats in the following manner:\n");
 
-    displayStats(combat);
+
+    combatant character[charCount];
+    initInputs(character, charCount);
+
+
+
 
     return 0;
 }
 
-void displayStats(const vector<Combatant> &combat) {
-    cout << string(64, '\n');
-    for(int i = 1; i < combat.size(); i++) {
-        cout << "Title: " << combat[i].name << "\n";
-        cout << "Init: " << combat[i].initiative << "\n";
-        cout << "hP: " << combat[i].hP << " AC: " << combat[i].AC;
-        cout << "\n\n";
+void initInputs(combatant character[], int charCount) {
+    //This is broken with incorrect inputs
+    string iName;
+    int iInitiative, iHP, iAC;
+    for(int i = 0; i < charCount; i++) {
+        bool iFlag = TRUE;
+        while(iFlag) {//Waits for successful input
+
+            printf("\n[Name] [Init] [HP] [AC]\n");
+            printf("e.g. \"obenaf 18 54 16\" \n");
+            printf("Character %i:", i);
+            cin >> iName >> iInitiative >> iHP >> iAC;
+
+            if(cin.fail()) {//Checks for incorrect cin
+                printf("User input is incorrect, please try again!\n");
+            }
+            else {//If successful
+                  //Add to class and bail out of loop
+                character[i].setStats(iName, iInitiative, iHP, iAC);
+                cout << iName << " has been successfully added!\n";
+                clearScreen();
+                iFlag = FALSE;
+            }
+        }
     }
 }
 
-bool combatSort(Combatant &a, Combatant &b) {
-    return a.initiative < b.initiative;
+void clearScreen() {
+    cout << string(64, '\n');
 }
