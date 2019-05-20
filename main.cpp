@@ -9,11 +9,6 @@ using namespace std;
 void initInputs(combatant[], int);
 void clearScreen();
 
-struct combatantInput {
-
-};
-
-
 int main() {
     int charCount;
     printf("Welcome to MOBCrawler!\n Press any key to begin...\n");
@@ -49,6 +44,7 @@ void initInputs(combatant character[], int charCount) {
             cin >> iName >> iInitiative >> iHP >> iAC;
 
             if(cin.fail()) {//Checks for incorrect cin
+                cin.clear();
                 printf("User input is incorrect, please try again!\n");
             }
             else {//If successful
